@@ -36,7 +36,7 @@ export var useDate = (date: Date, monthOffset = 0) => {
   const firstMonthDay = new Date(year, month + monthOffset, 1).getDay();
   const lastMonthDay = new Date(year, month + monthOffset + 1, 0).getDay();
   const startOffset = firstMonthDay === 0 ? 0 : firstMonthDay;
-  const endOffset = lastMonthDay === 0 ? 0 : 6 - lastMonthDay;
+  const endOffset = lastMonthDay === 0 ? 6 : 6 - lastMonthDay;
 
   return {
     year,
