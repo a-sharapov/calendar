@@ -34,15 +34,14 @@
 
       case CLOSE:
         ref?.removeEventListener('pointerdown', outsideClickListener)
-        ref?.close()
+        ref?.close(event.detail.value)
         break
     }
   }
 
   const updateDate = (day: number) => {
     date = new Date(useDate(currentDate).year, useDate(currentDate).month, day)
-
-    void ref?.close(date.toLocaleDateString())
+    void dispatchCustomEvent(eventName, { state: CLOSE, value: date.toLocaleDateString() })
   }
 
   onMount(() => {
