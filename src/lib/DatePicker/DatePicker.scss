@@ -1,0 +1,130 @@
+dialog#date-picker {
+  --base-font-size: 16px;
+  --border-color: color-mix(in srgb, orange, red 70%);
+  --active-color: color-mix(in srgb, orange, red 40%);
+
+  flex-direction: column;
+  position: relative;
+  max-width: 25%;
+  gap: 1em;
+  font-size: var(--base-font-size);
+  line-height: 1.2em;
+  padding: 1.5em;
+  background: #fefefe;
+  color: #111;
+  text-shadow: 0 1px 0 white;
+  border: none;
+  box-shadow: 0 0.1em 0.15em #5551, 0 0.1em 0.3em #7771;
+  border-top: 0.15em solid #555;
+  border-radius: 0.3em;
+  transition: 0.2s;
+
+  &[open] {
+    display: flex;
+
+    &::backdrop {
+      background: transparent;
+    }
+  }
+
+  header {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    height: 2em;
+    font-weight: bold;
+
+    div {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        position: absolute;
+        white-space: nowrap;
+        inset: auto;
+      }
+    }
+
+    button {
+      color: inherit;
+      font-size: 2em;
+      background: none;
+      border: none;
+      outline: none;
+      padding: 0;
+      cursor: pointer;
+      user-select: none;
+      text-shadow: inherit;
+      transition: 0.2s;
+
+      &:hover {
+        scale: 1.15;
+      }
+
+      &:active {
+        scale: 0.85;
+      }
+    }
+  }
+
+  .days-container {
+    display: flex;
+    flex-direction: row;
+    max-width: min-content;
+    gap: 0;
+
+    &.reverse {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .week-days,
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5em;
+
+    &:is(.week-days) {
+      user-select: none;
+    }
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      padding: 0.35em;
+      aspect-ratio: 1/0.7;
+      border: 0.25em solid transparent;
+      border-radius: 0.35em;
+      transition: 0.2s;
+
+      &.older {
+        color: #ccc;
+      }
+
+      &.current {
+        border-color: var(--border-color);
+      }
+
+      &.clickable {
+        font-weight: bold;
+        color: white;
+        text-shadow: 0 1px 0 #0005;
+        cursor: pointer;
+        background: var(--active-color);
+        box-shadow: 0 0.05em 0.2em
+          color-mix(in srgb, var(--active-color), transparent 70%);
+
+        &:hover {
+          border-radius: 0.15em;
+          scale: 1.05;
+          background: color-mix(in srgb, var(--active-color), red 40%);
+        }
+      }
+    }
+  }
+}
