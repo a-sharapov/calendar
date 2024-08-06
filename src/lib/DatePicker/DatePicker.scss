@@ -15,7 +15,9 @@ dialog#date-picker {
   color: #111;
   text-shadow: 0 1px 0 white;
   border: none;
-  box-shadow: 0 0.1em 0.15em #5551, 0 0.1em 0.3em #7771;
+  box-shadow:
+    0 0.1em 0.15em #5551,
+    0 0.1em 0.3em #7771;
   border-top: 0.15em solid #555;
   border-radius: 0.3em;
   transition: 0.2s;
@@ -117,8 +119,7 @@ dialog#date-picker {
         text-shadow: 0 1px 0 #0005;
         cursor: pointer;
         background: var(--active-color);
-        box-shadow: 0 0.05em 0.2em
-          color-mix(in srgb, var(--active-color), transparent 70%);
+        box-shadow: 0 0.05em 0.2em color-mix(in srgb, var(--active-color), transparent 70%);
 
         &:hover {
           border-radius: 0.15em;

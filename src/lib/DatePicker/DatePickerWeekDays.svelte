@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getDayName } from "./utils";
+  import { getDayName } from './utils'
 </script>
 
 <section class="week-days">
