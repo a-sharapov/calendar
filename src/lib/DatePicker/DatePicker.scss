@@ -6,6 +6,7 @@ dialog#date-picker {
   flex-direction: column;
   position: relative;
   max-width: 25%;
+  min-width: 410px;
   gap: 1em;
   font-size: var(--base-font-size);
   line-height: 1.2em;
