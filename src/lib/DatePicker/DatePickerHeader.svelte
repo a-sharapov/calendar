@@ -26,12 +26,12 @@
 </script>
 
 <header>
-  <button on:pointerdown={decreaseMonth}>&#x1F850;</button>
+  <button on:pointerdown={decreaseMonth}>&larr;</button>
   <div>
     {#key currentMonth}
       <slot />
       <span transition:fade={{ duration: 2e2 }}>{getMonthName(currentMonth)} {year}</span>
     {/key}
   </div>
-  <button on:pointerdown={increaseMonth}>&#x1F852;</button>
+  <button on:pointerdown={increaseMonth}>&rarr;</button>
 </header>

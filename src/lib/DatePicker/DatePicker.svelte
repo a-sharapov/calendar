@@ -15,7 +15,7 @@
   export let date: Date | string = new Date()
   export let availableDates: Array<Date | string> = []
 
-  let currentDate = new Date(date)
+  let currentDate = date instanceof Date ? date : new Date(date)
   let { lastDate, startOffset, endOffset } = useDate(currentDate)
   let previousLastDate = useDate(currentDate, -1).lastDate
   let isReverse = false
@@ -50,9 +50,10 @@
   })
 
   $: {
-    lastDate = useDate(currentDate).lastDate
-    startOffset = useDate(currentDate).startOffset
-    endOffset = useDate(currentDate).endOffset
+    const updated = useDate(currentDate)
+    lastDate = updated.lastDate
+    startOffset = updated.startOffset
+    endOffset = updated.endOffset
     previousLastDate = useDate(currentDate, -1).lastDate
   }
 </script>
@@ -75,7 +76,7 @@
             {isOlder}
             {isCurrent}
             {index}
-            clickHandler={isClickable ? () => updateDate(index + 1) : void 0}
+            clickHandler={isClickable && !isOlder ? () => updateDate(index + 1) : void 0}
           />
         {/each}
         <DatePickerOffset offset={endOffset} startWith={nextStartDate} />
