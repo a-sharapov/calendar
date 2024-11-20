@@ -1,11 +1,18 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { fade } from 'svelte/transition'
   import { getMonthName, useDate } from './utils'
 
-  export let currentDate: Date
-  export let isReverse: boolean = false
+  interface Props {
+    currentDate: Date;
+    isReverse?: boolean;
+    children?: import('svelte').Snippet;
+  }
 
-  let { year, month: currentMonth } = useDate(currentDate)
+  let { currentDate = $bindable(), isReverse = $bindable(false), children }: Props = $props();
+
+  let { year, month: currentMonth } = $state(useDate(currentDate))
 
   const decreaseMonth = () => {
     const isShouldUpdateYear = currentMonth === 0
@@ -22,16 +29,18 @@
     currentMonth = currentMonth < 11 ? currentMonth + 1 : 0
   }
 
-  $: currentDate = new Date(year, currentMonth, currentDate.getDate())
+  run(() => {
+    currentDate = new Date(year, currentMonth, currentDate.getDate())
+  });
 </script>
 
 <header>
-  <button on:pointerdown={decreaseMonth}>&larr;</button>
+  <button onpointerdown={decreaseMonth}>&larr;</button>
   <div>
     {#key currentMonth}
-      <slot />
+      {@render children?.()}
       <span transition:fade={{ duration: 2e2 }}>{getMonthName(currentMonth)} {year}</span>
     {/key}
   </div>
-  <button on:pointerdown={increaseMonth}>&rarr;</button>
+  <button onpointerdown={increaseMonth}>&rarr;</button>
 </header>

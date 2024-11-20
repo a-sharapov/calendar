@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { dispatchCustomEvent } from './assets/utils'
   import { DEFAULT_EVENT_NAME, OPEN } from './lib/DatePicker/assets'
   import DatePicker from './lib/DatePicker/DatePicker.svelte'
 
-  let currentDate: Date = new Date()
-  let datePicker: HTMLDialogElement | undefined
+  let currentDate: Date = $state(new Date())
+  let datePicker: HTMLDialogElement | undefined = $state()
 
   const availableDates = [
     new Date().toLocaleDateString(),
@@ -18,10 +20,12 @@
 
   const showDatePicker = () => void dispatchCustomEvent(DEFAULT_EVENT_NAME, { state: OPEN })
 
-  $: console.log(
-    `%c 📅 currentDate: ${currentDate}, returnedValue: ${datePicker?.returnValue || ''}`,
-    'color: tan; font-size: 1.25em; font-weight: bold; background: #333; padding: .5em 1em'
-  )
+  run(() => {
+    console.log(
+      `%c 📅 currentDate: ${currentDate}, returnedValue: ${datePicker?.returnValue || ''}`,
+      'color: tan; font-size: 1.25em; font-weight: bold; background: #333; padding: .5em 1em'
+    )
+  });
 </script>
 
 <main>
@@ -32,7 +36,7 @@
       type="text"
       value={datePicker?.returnValue || currentDate.toLocaleDateString()}
       readonly
-      on:pointerdown={showDatePicker}
+      onpointerdown={showDatePicker}
     />
   </p>
 

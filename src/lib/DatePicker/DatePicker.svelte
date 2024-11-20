@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { onMount } from 'svelte'
   import { slide } from 'svelte/transition'
   import { closeByOutsideClick, dispatchCustomEvent } from '../../assets/utils'
@@ -10,15 +12,26 @@
   import DatePickerWeekDays from './DatePickerWeekDays.svelte'
   import { isCurrentDate, isCurrentDateInAvailableDates, isOlderThanToday, useDate } from './utils'
 
-  export let ref: HTMLDialogElement | undefined
-  export let eventName: string = DEFAULT_EVENT_NAME
-  export let date: Date | string = new Date()
-  export let availableDates: Array<Date | string> = []
+  interface Props {
+    ref: HTMLDialogElement | undefined;
+    eventName?: string;
+    date?: Date | string;
+    availableDates?: Array<Date | string>;
+    children?: import('svelte').Snippet;
+  }
 
-  let currentDate = date instanceof Date ? date : new Date(date)
-  let { lastDate, startOffset, endOffset } = useDate(currentDate)
-  let previousLastDate = useDate(currentDate, -1).lastDate
-  let isReverse = false
+  let {
+    ref = $bindable(),
+    eventName = DEFAULT_EVENT_NAME,
+    date = $bindable(new Date()),
+    availableDates = [],
+    children
+  }: Props = $props();
+
+  let currentDate = $state(date instanceof Date ? date : new Date(date))
+  let { lastDate, startOffset, endOffset } = $state(useDate(currentDate))
+  let previousLastDate = $state(useDate(currentDate, -1).lastDate)
+  let isReverse = $state(false)
   let nextStartDate = 1
 
   const eventHandler = (event: CustomEvent): void => {
@@ -49,13 +62,13 @@
     return () => document.removeEventListener(eventName as any, eventHandler)
   })
 
-  $: {
+  run(() => {
     const updated = useDate(currentDate)
     lastDate = updated.lastDate
     startOffset = updated.startOffset
     endOffset = updated.endOffset
     previousLastDate = useDate(currentDate, -1).lastDate
-  }
+  });
 </script>
 
 <dialog id="date-picker" bind:this={ref}>
@@ -83,5 +96,5 @@
       </section>
     {/key}
   </div>
-  <slot />
+  {@render children?.()}
 </dialog>

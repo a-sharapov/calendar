@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let offset: number
-  export let reverted: boolean = false
-  export let startWith: number | undefined = undefined
+  interface Props {
+    offset: number;
+    reverted?: boolean;
+    startWith?: number | undefined;
+  }
+
+  let { offset, reverted = false, startWith = undefined }: Props = $props();
 </script>
 
 {#each Array.from({ length: offset }) as _, i}
@@ -9,6 +13,6 @@
     {@const dayNum = reverted ? startWith - offset + i + 1 : startWith + i}
     <span class="older">{dayNum}</span>
   {:else}
-    <span class="older" />
+    <span class="older"></span>
   {/if}
 {/each}

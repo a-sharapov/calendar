@@ -1,16 +1,27 @@
 <script lang="ts">
-  export let isOlder: boolean
-  export let isCurrent: boolean
-  export let index: number
-  export let clickHandler: (() => void) | undefined
+  interface Props {
+    isOlder: boolean;
+    isCurrent: boolean;
+    index: number;
+    clickHandler: (() => void) | undefined;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    isOlder,
+    isCurrent,
+    index,
+    clickHandler,
+    children
+  }: Props = $props();
 </script>
 
 <span
   class:older={isOlder}
   class:current={isCurrent}
   class:clickable={!isOlder && !!clickHandler}
-  on:pointerdown={clickHandler}
+  onpointerdown={clickHandler}
 >
   {index + 1}
-  <slot />
+  {@render children?.()}
 </span>
